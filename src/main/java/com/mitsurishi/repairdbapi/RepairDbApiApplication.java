@@ -1,3 +1,6 @@
+/*
+ * Java file that handles configuration and execution of Spring Boot API service.
+ */
 package com.mitsurishi.repairdbapi;
 
 import org.springframework.boot.SpringApplication;
