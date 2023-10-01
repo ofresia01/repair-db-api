@@ -18,7 +18,14 @@ public class RepairDbApiController {
      * }
      */
     @GetMapping("/login")
+    // Handler method has direct access to model, can use POJO to create data
     public Boolean getLogin(Model model) {
-        return true;
+        Login login = new Login("eventUsername", "eventPassword");
+        if (login.getPassword() == "eventPassword") { // Add arbitrary logic for authentication
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

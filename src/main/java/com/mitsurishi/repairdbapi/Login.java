@@ -1,5 +1,5 @@
 /*
- * Login.java is a Model in the Model-View-Service (MCS) design pattern 
+ * Login.java is a Model in the Model-View-Service (MCS) design pattern.
  * Login.java provides data for the construction of GetLogin POJOs.
  */
 package com.mitsurishi.repairdbapi;
