@@ -6,7 +6,6 @@ package com.mitsurishi.repairdbapi;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.service.annotation.HttpExchange;
 
 // Stereotype annotation indicating this is a controller class for handling client requests
 @Controller
@@ -18,7 +17,7 @@ public class RepairDbApiController {
      * }
      */
     @GetMapping("/login")
-    // Handler method has direct access to model, can use POJO to create data
+    // Handler method has direct access to model, can create POJO
     public Boolean getLogin(Model model) {
         Login login = new Login("eventUsername", "eventPassword");
         if (login.getPassword() == "eventPassword") { // Add arbitrary logic for authentication
