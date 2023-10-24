@@ -6,7 +6,7 @@ package com.mitsurishi.repairdbapi.data.models;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity // Using Java Persistence API for management of object/relational mapping
+@Entity // Using Java Persistence API for management of object-relational mapping
 public class Invoice {
     // Define ID as primary key, automatically generate ID
     @Id
@@ -15,12 +15,20 @@ public class Invoice {
     // Private attributes
     private Integer id;
     private Integer ticketId;
-    private Integer CustomerId;
+    private Integer customerId;
     private String customerName;
     private Date dateCompleted;
 
     // Empty constructor
     public Invoice() {
+    }
+
+    public Invoice(Integer id, Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
+        this.id = id;
+        this.ticketId = ticketId;
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.dateCompleted = dateCompleted;
     }
 
     // Accessors and mutators
@@ -40,12 +48,12 @@ public class Invoice {
         this.ticketId = ticketId;
     }
 
-    public Integer getCustomerId() {
-        return this.CustomerId;
+    public Integer getcustomerId() {
+        return this.customerId;
     }
 
-    public void setCustomerId(Integer CustomerId) {
-        this.CustomerId = CustomerId;
+    public void setcustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public String getCustomerName() {
