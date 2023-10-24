@@ -11,4 +11,4 @@ package com.mitsurishi.repairdbapi.data.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.mitsurishi.repairdbapi.data.models.Invoice;
 
-interface InvoiceRepository extends JpaRepository<Invoice, Integer> {} // Declare interface extension of JpaRepository, specifying domain type as Invoice and ID type as Integer
+public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {} // Declare interface extension of JpaRepository, specifying domain type as Invoice and ID type as Integer
