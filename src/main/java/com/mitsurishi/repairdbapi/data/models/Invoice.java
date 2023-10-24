@@ -19,7 +19,8 @@ public class Invoice {
     private Date dateCompleted;
 
     // Default, empty constructor
-    Invoice() {}
+    Invoice() {
+    }
 
     // Custom constructor for creating this domain object without yet having an ID
     Invoice(Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
@@ -77,15 +78,17 @@ public class Invoice {
         // Initial check of instance being an object
         if (this == object)
             return true;
-        
+
         // Check if instance is of type described by Invoice class
         if (!(object instanceof Invoice))
             return false;
-        
+
         // Cast object to Invoice, check if all attributes are equal
         Invoice invoice = (Invoice) object;
-        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticketId, invoice.ticketId) && Objects.equals(this.customerId, invoice.customerId)
-            && Objects.equals(this.customerName, invoice.customerName) && Objects.equals(this.dateCompleted, invoice.dateCompleted);
+        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticketId, invoice.ticketId)
+                && Objects.equals(this.customerId, invoice.customerId)
+                && Objects.equals(this.customerName, invoice.customerName)
+                && Objects.equals(this.dateCompleted, invoice.dateCompleted);
     }
 
     @Override
@@ -97,6 +100,7 @@ public class Invoice {
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Invoice{" + "id=" + this.id + ", ticketId=" + this.ticketId + ", customerId=" + this.customerId + ", customerName='" + this.customerName + "', dateCompleted=" + this.dateCompleted + "}";
+        return "Invoice{" + "id=" + this.id + ", ticketId=" + this.ticketId + ", customerId=" + this.customerId
+                + ", customerName='" + this.customerName + "', dateCompleted=" + this.dateCompleted + "}";
     }
 }
