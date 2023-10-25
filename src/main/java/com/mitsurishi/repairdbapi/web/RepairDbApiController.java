@@ -1,21 +1,30 @@
 /*
- * Java file that operates as Controller in Model-Controller-Service (MVC) design pattern.
+ * Controller class that wraps our data store with a web layer via Spring MVC, with Spring Boot handling most infrastructure code.
  */
 package com.mitsurishi.repairdbapi.web;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.mitsurishi.repairdbapi.data.models.Invoice;
+import com.mitsurishi.repairdbapi.service.InvoiceService;
 
-// Stereotype annotation indicating this is a controller class for handling client requests
-@Controller
+@RestController // Stereotype annotation indicating data returned by each method will be written straight to response body, instead of rendering templates (views)
 public class RepairDbApiController {
-    /* TEMPLATE FOR ADDING HANDLING TO AN ENDPOINT
-     * @GetMapping("/example") { is a Spring annotation for handling GET requests on the "example" endpoint.
-     * public bool isExample() { is a function that will execute upon GET request of "example" endpoint.
-     *      return true;
-     * }
+    // Instantiate service objects for layered request handling, autowire for dependency injection
+    @Autowired
+    InvoiceService invoiceService;
+
+    /*
+     * Invoice-related request handling
      */
-    // Handler method has direct access to model, can create POJO
-    
+    @GetMapping("/invoices/find/{id}")
+    // Retrieve single invoice via ID provided by request
+    public ResponseEntity<Invoice> getInvoiceById(@PathVariable("id") Integer id) {
+        Invoice invoice = invoiceService.getSingleInvoice(id);
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
+    }
 }
