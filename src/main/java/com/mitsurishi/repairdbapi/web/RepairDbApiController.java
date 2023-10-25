@@ -14,7 +14,7 @@ import com.mitsurishi.repairdbapi.service.InvoiceService;
 
 @RestController // Stereotype annotation indicating data returned by each method will be written straight to response body, instead of rendering templates (views)
 public class RepairDbApiController {
-    // Instantiate service objects for layered request handling
+    // Instantiate service objects for layered request handling, autowire for dependency injection
     @Autowired
     InvoiceService invoiceService;
 

@@ -11,7 +11,7 @@ import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 
 @Service // Specify class as Service bean for component scanning
 public class InvoiceService {
-    // Instantiate repository object for JPA data store operations
+    // Instantiate repository object for JPA data store operations, autowire for dependency injection
     @Autowired
     InvoiceRepository invoiceRepository;
 
