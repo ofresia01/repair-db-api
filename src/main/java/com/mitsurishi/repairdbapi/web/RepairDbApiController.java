@@ -4,6 +4,7 @@
 package com.mitsurishi.repairdbapi.web;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import com.mitsurishi.repairdbapi.service.InvoiceService;
 @RestController // Stereotype annotation indicating data returned by each method will be written straight to response body, instead of rendering templates (views)
 public class RepairDbApiController {
     // Instantiate service objects for layered request handling
+    @Autowired
     InvoiceService invoiceService;
 
     /*
