@@ -19,11 +19,11 @@ public class Invoice {
     private Date dateCompleted;
 
     // Default, empty constructor
-    Invoice() {
+    public Invoice() {
     }
 
     // Custom constructor for creating this domain object without yet having an ID
-    Invoice(Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
+    public Invoice(Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
         this.ticketId = ticketId;
         this.customerId = customerId;
         this.customerName = customerName;
