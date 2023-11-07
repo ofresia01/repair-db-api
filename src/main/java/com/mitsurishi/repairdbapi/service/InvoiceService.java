@@ -5,10 +5,12 @@ package com.mitsurishi.repairdbapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.mitsurishi.repairdbapi.data.repositories.InvoiceRepository;
 import com.mitsurishi.repairdbapi.data.models.Invoice;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -72,14 +74,14 @@ public class InvoiceService {
 
     /*
      * Method for deleting an invoice.
-     * Queries for Invoice by given ID. If it exists, it's deleted. Otherwise, a ResourceNotFoundException is thrown.
+     * Queries for Invoice by given ID. If it exists, it's deleted. Otherwise, a
+     * ResourceNotFoundException is thrown.
      */
     public MessageResponse deleteInvoice(Integer invoiceId) throws ResourceNotFoundException {
         if (invoiceRepository.getReferenceById(invoiceId).getId().equals(invoiceId)) {
             invoiceRepository.deleteById(invoiceId);
             return new MessageResponse("SUCCESS");
-        }
-        else {
+        } else {
             throw new ResourceNotFoundException("Invoice", "ID", invoiceId);
         }
     }
