@@ -3,7 +3,6 @@
  */
 package com.mitsurishi.repairdbapi.service;
 
-import org.apache.tomcat.util.file.ConfigurationSource.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mitsurishi.repairdbapi.data.repositories.InvoiceRepository;
@@ -56,7 +55,7 @@ public class InvoiceService {
      * Queries for Invoice by given ID.
      * If Invoice exists, update it. Otherwise, throw a ResourceNotFoundException.
      */
-    public Optional<Invoice> updateInvoice(Integer invoiceId, Integer ticketId, Integer customerId, String customerName,
+    public MessageResponse updateInvoice(Integer invoiceId, Integer ticketId, Integer customerId, String customerName,
             Date dateCompleted) throws ResourceNotFoundException {
         Optional<Invoice> oldInvoice = invoiceRepository.findById(invoiceId);
         if (oldInvoice.isEmpty()) {
@@ -67,7 +66,7 @@ public class InvoiceService {
             oldInvoice.get().setCustomerName(customerName);
             oldInvoice.get().setDateCompleted(dateCompleted);
             invoiceRepository.save(oldInvoice.get());
-            return oldInvoice;
+            return new MessageResponse("SUCCESSFUL");
         }
     }
 
