@@ -38,7 +38,7 @@ public class Invoice {
         this.id = id;
     }
 
-    public void set_i(Integer ticket_id) {
+    public void setTicketId(Integer ticket_id) {
         this.ticket_id = ticket_id;
     }
 
@@ -67,6 +67,6 @@ public class Invoice {
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Invoice{" + "id=" + this.id + ", _i=" + this._i + "}";
+        return "Invoice{" + "id=" + this.id + ", ticket_id=" + this.ticket_id + "}";
     }
 }
