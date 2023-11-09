@@ -111,8 +111,8 @@ public class Ticket {
                 && Objects.equals(this.customer_id, ticket.customer_id)
                 && Objects.equals(this.device_desc, ticket.device_desc)
                 && Objects.equals(this.issue_desc, ticket.issue_desc)
-                        && Objects.equals(this.status, ticket.status)
-                        && Objects.equals(this.created_on, ticket.created_on);
+                && Objects.equals(this.status, ticket.status)
+                && Objects.equals(this.created_on, ticket.created_on);
     }
 
     @Override

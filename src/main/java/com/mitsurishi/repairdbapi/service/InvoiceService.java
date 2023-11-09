@@ -17,8 +17,7 @@ import java.util.Optional;
 
 @Service // Specify class as Service bean for component scanning
 public class InvoiceService {
-    // Instantiate repository object for JPA data store operations, autowire for
-    // dependency injection
+    // Instantiate repository object for JPA data store operations, autowire for dependency injection
     @Autowired
     InvoiceRepository invoiceRepository;
 

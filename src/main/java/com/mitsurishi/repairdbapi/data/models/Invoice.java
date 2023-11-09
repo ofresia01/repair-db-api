@@ -13,15 +13,15 @@ import java.util.Objects;
 public class Invoice {
     // Private attributes
     private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-populated (via JPA provider) primary key
-    private Integer ticketId;
+    private Integer ticket_id;
     
     // Default, empty constructor
     public Invoice() {
     }
 
     // Custom constructor for creating this domain object without yet having an ID
-    public Invoice(Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
-        this.ticketId = ticketId;
+    public Invoice(Integer id, Integer customerId, String customerName, Date dateCompleted) {
+        this.ticket_id = id;
     }
 
     // Accessors
@@ -30,7 +30,7 @@ public class Invoice {
     }
 
     public Integer getTicketId() {
-        return this.ticketId;
+        return this.ticket_id;
     }
 
     // Mutators
@@ -38,8 +38,8 @@ public class Invoice {
         this.id = id;
     }
 
-    public void setTicketId(Integer ticketId) {
-        this.ticketId = ticketId;
+    public void set_i(Integer ticket_id) {
+        this.ticket_id = ticket_id;
     }
 
     // Overriden equals, hashCode, and toString methods
@@ -55,18 +55,18 @@ public class Invoice {
 
         // Cast object to Invoice, check if all attributes are equal
         Invoice invoice = (Invoice) object;
-        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticketId, invoice.ticketId);
+        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticket_id, invoice.ticket_id);
     }
 
     @Override
     public int hashCode() {
         // Computes hash value of this instance
-        return Objects.hash(this.id, this.ticketId);
+        return Objects.hash(this.id, this.ticket_id);
     }
 
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Invoice{" + "id=" + this.id + ", ticketId=" + this.ticketId + "}";
+        return "Invoice{" + "id=" + this.id + ", _i=" + this._i + "}";
     }
 }
