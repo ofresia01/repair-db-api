@@ -64,9 +64,6 @@ public class InvoiceService {
             throw new ResourceNotFoundException("Invoice", "ID", invoiceId);
         } else {
             oldInvoice.get().setTicketId(ticketId);
-            oldInvoice.get().setCustomerId(customerId);
-            oldInvoice.get().setCustomerName(customerName);
-            oldInvoice.get().setDateCompleted(dateCompleted);
             invoiceRepository.save(oldInvoice.get());
             return new MessageResponse("SUCCESSFUL");
         }
