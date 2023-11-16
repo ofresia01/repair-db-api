@@ -5,11 +5,13 @@ package com.mitsurishi.repairdbapi.data.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity // JPA annotation that prepares object for storage in JPA-based data store
+@Entity(name = "Invoice") // JPA annotation that prepares object for storage in JPA-based data store
+@Table(name = "Invoice")
 public class Invoice {
     // Private attributes
     private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-populated (via JPA provider) primary key
