@@ -15,6 +15,6 @@ public class Customer {
 
     // Setters
 
-    // Overwrite .equals(), .hashCode(), and .toString()
+    // Override .equals(), .hashCode(), and .toString()
     
 }
