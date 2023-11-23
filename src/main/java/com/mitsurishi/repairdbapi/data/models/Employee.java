@@ -1,5 +1,5 @@
 /*
- * Invoice domain class for JPA-based data store, which allows JPA to handle database interactions.
+ * Employee domain class for JPA-based data store, which allows JPA to handle database interactions.
  */
 package com.mitsurishi.repairdbapi.data.models;
 
@@ -66,6 +66,9 @@ public class Employee {
     @Override
     public String toString() {
         // return string rep of Employee object
-        return "Employee{" + "id=" + this.id + "name=" + this.name + "}";
+        return "Employee{" + 
+            "id=" + this.id + 
+            ", name=" + this.name + 
+            "}";
     }
 }
