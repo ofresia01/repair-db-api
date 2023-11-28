@@ -14,9 +14,6 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 @Entity
 @Table(name = "\"Customer\"")
 public class Customer {
