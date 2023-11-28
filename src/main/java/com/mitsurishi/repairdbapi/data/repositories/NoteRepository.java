@@ -10,8 +10,9 @@ package com.mitsurishi.repairdbapi.data.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.mitsurishi.repairdbapi.data.models.Employee;
+import com.mitsurishi.repairdbapi.data.models.Note;
 
 @Repository // Specify class as Repository bean for component scanning
-public interface EmployeeRepository extends JpaRepository<Employee, Integer> {} // Declare interface extension of JpaRepository, specifying domain type as Employee and ID type as Integer
+public interface NoteRepository extends JpaRepository<Note, Integer> {} // Declare interface extension of JpaRepository, specifying domain type as Employee and ID type as Integer
+
 
