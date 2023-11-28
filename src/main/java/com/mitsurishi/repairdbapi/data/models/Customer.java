@@ -34,7 +34,7 @@ public class Customer {
     private String email;
 
     @Column(name = "phone_number", nullable = false)
-    private String phone_number;
+    private String phoneNumber;
 
     // NotFound annotation as this is a one to zero-or-many relationship
     @OneToMany(mappedBy = "customer")
@@ -49,7 +49,7 @@ public class Customer {
     Customer(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
-        this.phone_number = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     // Getters
@@ -66,7 +66,7 @@ public class Customer {
     }
 
     public String getPhoneNumber() {
-        return this.phone_number;
+        return this.phoneNumber;
     }
 
     // Setters
@@ -82,8 +82,8 @@ public class Customer {
         this.email = email;
     }
 
-    public void setPhoneNumber(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     // Override .equals(), .hashCode(), and .toString()
@@ -101,7 +101,7 @@ public class Customer {
         Customer customer = (Customer) object;
         return Objects.equals(this.id, customer.getId()) && Objects.equals(this.name, customer.getName())
                 && Objects.equals(this.email, customer.getEmail())
-                && Objects.equals(this.phone_number, customer.getPhoneNumber());
+                && Objects.equals(this.phoneNumber, customer.getPhoneNumber());
     }
 
     @Override
