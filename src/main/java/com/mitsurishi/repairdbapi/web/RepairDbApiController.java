@@ -5,7 +5,6 @@ package com.mitsurishi.repairdbapi.web;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import com.mitsurishi.repairdbapi.data.models.Invoice;
-import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.service.InvoiceService;
 import com.mitsurishi.repairdbapi.service.TicketService;
@@ -38,12 +34,6 @@ public class RepairDbApiController {
      * ----------------------INVOICE REQUESTS-----------------------
      */
     // Create single invoice via data provided by request
-    @PostMapping("/invoices/{ticketId}/{customerId}/{customerName}/{dateCompleted}")
-    public ResponseEntity<MessageResponse> createInvoice(@PathVariable("ticketId") Integer ticketId) {
-        Ticket ticket = ticketService.getSingleTicket(ticketId);
-        MessageResponse response = invoiceService.createInvoice(ticket);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     // Retrieve single invoice via ID provided by request
     @GetMapping("/invoices/find/{id}")
@@ -57,17 +47,6 @@ public class RepairDbApiController {
     public ResponseEntity<List<Invoice>> getAllInvoices() {
         List<Invoice> allInvoices = invoiceService.getAllInvoices();
         return new ResponseEntity<>(allInvoices, HttpStatus.OK);
-    }
-
-    // Update invoice of given ID
-    @PutMapping("/invoices/{invoiceId}/{ticketId}/{customerId}/{customerName}/{dateCompleted}")
-    public ResponseEntity<MessageResponse> updateInvoice(@PathVariable("invoiceId") Integer invoiceId,
-            @PathVariable("ticketId") Integer ticketId, @PathVariable("customerId") Integer customerId,
-            @PathVariable("customerName") String customerName, @PathVariable("dateCompleted") Date dateCompleted) {
-        Ticket ticket = ticketService.getSingleTicket(ticketId);
-        MessageResponse response = invoiceService.updateInvoice(invoiceId, ticket, customerId, customerName,
-                dateCompleted);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Delete invoice of given ID
