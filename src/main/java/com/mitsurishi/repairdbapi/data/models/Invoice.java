@@ -3,27 +3,35 @@
  */
 package com.mitsurishi.repairdbapi.data.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
-import java.util.Date;
+import jakarta.persistence.GenerationType;
+
 import java.util.Objects;
 
-@Entity(name = "Invoice") // JPA annotation that prepares object for storage in JPA-based data store
+@Entity // JPA annotation that prepares object for storage in JPA-based data store
 @Table(name = "Invoice")
 public class Invoice {
     // Private attributes
-    private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-populated (via JPA provider) primary key
-    private Integer ticket_id;
-    
+    // JPA annotations indicating id as auto-populated (via JPA provider) primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @Column(name="ticket_id", nullable = false, unique = true)
+    private Integer ticketId;
+
     // Default, empty constructor
     public Invoice() {
     }
 
     // Custom constructor for creating this domain object without yet having an ID
-    public Invoice(Integer id, Integer customerId, String customerName, Date dateCompleted) {
-        this.ticket_id = id;
+    public Invoice(Integer ticketId) {
+        this.ticketId = ticketId;
     }
 
     // Accessors
@@ -32,7 +40,7 @@ public class Invoice {
     }
 
     public Integer getTicketId() {
-        return this.ticket_id;
+        return this.ticketId;
     }
 
     // Mutators
@@ -40,8 +48,8 @@ public class Invoice {
         this.id = id;
     }
 
-    public void setTicketId(Integer ticket_id) {
-        this.ticket_id = ticket_id;
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
     }
 
     // Overriden equals, hashCode, and toString methods
@@ -57,18 +65,18 @@ public class Invoice {
 
         // Cast object to Invoice, check if all attributes are equal
         Invoice invoice = (Invoice) object;
-        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticket_id, invoice.ticket_id);
+        return Objects.equals(getId(), invoice.getId()) && Objects.equals(getTicketId(), invoice.getTicketId());
     }
 
     @Override
     public int hashCode() {
         // Computes hash value of this instance
-        return Objects.hash(this.id, this.ticket_id);
+        return Objects.hash(getId(), getTicketId());
     }
 
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Invoice{" + "id=" + this.id + ", ticket_id=" + this.ticket_id + "}";
+        return "Invoice{" + "id=" + getId() + ", ticketId=" + getTicketId() + "}";
     }
 }

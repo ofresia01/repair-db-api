@@ -25,9 +25,8 @@ public class InvoiceService {
      * Method for creating an invoice.
      * Creates an Invoice object, saves it to InvoiceRepository.
      */
-    public MessageResponse createInvoice(Integer ticketId, Integer customerId, String customerName,
-            Date dateCompleted) {
-        Invoice newInvoice = new Invoice(ticketId, customerId, customerName, dateCompleted);
+    public MessageResponse createInvoice(Integer ticketId) {
+        Invoice newInvoice = new Invoice(ticketId);
         invoiceRepository.save(newInvoice);
         return new MessageResponse("SUCCESSFUL");
     }

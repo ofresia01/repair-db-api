@@ -3,17 +3,32 @@
  */
 package com.mitsurishi.repairdbapi.data.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Objects;
 
 @Entity
+@Table(name = "Customer")
 public class Customer {
-    // Attrubutes (all private)
-    private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-generated (via JPA provider) primary key
+    // Private member variables
+    // Annotations denoting primary key of entity with automatic generation strategy
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @Column(name = "name", nullable = false, unique = false)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = false)
     private String email;
+
+    @Column(name = "phone_number", nullable = false, unique = false)
     private String phone_number;
 
     // Default, empty constructor

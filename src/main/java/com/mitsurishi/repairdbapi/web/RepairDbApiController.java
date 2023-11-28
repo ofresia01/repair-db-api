@@ -34,10 +34,8 @@ public class RepairDbApiController {
      */
     // Create single invoice via data provided by request
     @PostMapping("/invoices/{ticketId}/{customerId}/{customerName}/{dateCompleted}")
-    public ResponseEntity<MessageResponse> createInvoice(@PathVariable("ticketId") Integer ticketId,
-            @PathVariable("customerId") Integer customerId, @PathVariable("customerName") String customerName,
-            @PathVariable("dateCompleted") Date dateCompleted) {
-        MessageResponse response = invoiceService.createInvoice(ticketId, customerId, customerName, dateCompleted);
+    public ResponseEntity<MessageResponse> createInvoice(@PathVariable("ticketId") Integer ticketId) {
+        MessageResponse response = invoiceService.createInvoice(ticketId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

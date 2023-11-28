@@ -6,34 +6,57 @@ package com.mitsurishi.repairdbapi.data.models;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity // JPA annotation that prepares for storage in data store
+@Table(name = "Ticket")
 public class Ticket {
     // Private member attributes
-    private @Id @GeneratedValue Integer id; // JPA annotations that denote ID as an auto-populated (via JPA provider) primary key
-    private Integer employee_id;
-    private Integer customer_id;
-    private String device_desc;
-    private String issue_desc;
+    // JPA annotations that denote ID as an auto-populated (via JPA provider) primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) 
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @Column(name = "employee_id", nullable = false, unique = true)
+    private Integer employeeId;
+
+    @Column(name = "customer_id", nullable = false, unique = true)
+    private Integer customerId;
+
+    @Column(name = "device_desc", nullable = false, unique = false)
+    private String deviceDescription;
+
+    @Column(name = "issue_desc", nullable = false, unique = false)
+    private String issueDescription;
+
+    @Column(name = "status", nullable = false, unique = false)
     private String status;
-    private Date created_on;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="created_on", nullable = false, unique = false)
+    private Date createdOn;
 
     // Default, empty constructor
     public Ticket() {
     };
 
     // Parameterized constructor for creating domain object without an ID
-    public Ticket(Integer employee_id, Integer customer_id, String device_desc, String issue_desc, String status,
-            Date created_on) {
-        this.employee_id = employee_id;
-        this.customer_id = customer_id;
-        this.device_desc = device_desc;
-        this.issue_desc = issue_desc;
+    public Ticket(Integer employeeId, Integer customerId, String deviceDescription, String issueDescription, String status,
+            Date createdOn) {
+        this.employeeId = employeeId;
+        this.customerId = customerId;
+        this.deviceDescription = deviceDescription;
+        this.issueDescription = issueDescription;
         this.status = status;
-        this.created_on = created_on;
+        this.createdOn = createdOn;
     }
 
     // Accessors
@@ -42,19 +65,19 @@ public class Ticket {
     }
 
     public Integer getEmployeeId() {
-        return this.employee_id;
+        return this.employeeId;
     }
 
     public Integer getCustomerId() {
-        return this.customer_id;
+        return this.customerId;
     }
 
     public String getDeviceDescription() {
-        return this.device_desc;
+        return this.deviceDescription;
     }
 
     public String getIssueDescription() {
-        return this.issue_desc;
+        return this.issueDescription;
     }
 
     public String getStatus() {
@@ -62,7 +85,7 @@ public class Ticket {
     }
 
     public Date getCreatedDate() {
-        return this.created_on;
+        return this.createdOn;
     }
 
     // Mutators
@@ -70,28 +93,28 @@ public class Ticket {
         this.id = id;
     }
 
-    public void setEmployeeId(Integer employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public void setCustomerId(Integer customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
-    public void setDeviceDescription(String device_desc) {
-        this.device_desc = device_desc;
+    public void setDeviceDescription(String deviceDescription) {
+        this.deviceDescription = deviceDescription;
     }
 
-    public void setIssueDescription(String issue_desc) {
-        this.issue_desc = issue_desc;
+    public void setIssueDescription(String issueDescription) {
+        this.issueDescription = issueDescription;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public void setCreatedDate(Date created_on) {
-        this.created_on = created_on;
+    public void setCreatedDate(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
     // Overriden equals, hashCode, and toString methods
@@ -107,26 +130,25 @@ public class Ticket {
 
         // Cast object to Ticket, check if all attributes are equal
         Ticket ticket = (Ticket) object;
-        return Objects.equals(this.id, ticket.id) && Objects.equals(this.employee_id, ticket.employee_id)
-                && Objects.equals(this.customer_id, ticket.customer_id)
-                && Objects.equals(this.device_desc, ticket.device_desc)
-                && Objects.equals(this.issue_desc, ticket.issue_desc)
-                && Objects.equals(this.status, ticket.status)
-                && Objects.equals(this.created_on, ticket.created_on);
+        return Objects.equals(getId(), ticket.getId()) && Objects.equals(getEmployeeId(), ticket.getEmployeeId())
+                && Objects.equals(getCustomerId(), ticket.getCustomerId())
+                && Objects.equals(getDeviceDescription(), ticket.getDeviceDescription())
+                && Objects.equals(getIssueDescription(), ticket.getIssueDescription())
+                && Objects.equals(getStatus(), ticket.getStatus())
+                && Objects.equals(getCreatedDate(), ticket.getCreatedDate());
     }
 
     @Override
     public int hashCode() {
         // Computes hash value of this instance
-        return Objects.hash(this.id, this.employee_id, this.customer_id, this.device_desc, this.issue_desc, this.status,
-                this.created_on);
+        return Objects.hash(getId(), getEmployeeId(), getCustomerId(), getDeviceDescription(), getIssueDescription(), getStatus(), getCreatedDate());
     }
 
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Ticket{" + "id=" + this.id + ", employee_id=" + this.employee_id + ", customer_id=" + this.customer_id
-                + ", device_desc='" + this.device_desc + "', issue_desc=" + this.issue_desc + "', status=" + this.status
-                + "', created_on=" + this.created_on + "}";
+        return "Ticket{" + "id=" + getId() + ", employeeId=" + getEmployeeId() + ", customerId=" + getCustomerId()
+                + ", deviceDescription='" + getDeviceDescription() + "', issueDescription=" + getIssueDescription() + "', status=" + getStatus()
+                + "', createdOn=" + getCreatedDate() + "}";
     }
 }

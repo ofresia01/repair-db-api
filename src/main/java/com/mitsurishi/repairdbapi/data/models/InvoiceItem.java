@@ -3,25 +3,42 @@
  */
 package com.mitsurishi.repairdbapi.data.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+
 import java.util.Objects;
 
 @Entity
 public class InvoiceItem {
-    // Attrubutes (all private)
-    private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-generated (via JPA provider) primary key
-    private String name;
-    private Integer cost;
-    private Integer quantity;
-    private String type;
+    // Attributes (all private)
+    // JPA annotations indicating id as auto-generated (via JPA provider) primary key
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id; 
+
+    @Column(name = "invoice_id", nullable = false, unique = true)
     private Integer invoiceId;
 
+    @Column(name = "name", nullable = false, unique = false)
+    private String name;
+
+    @Column(name = "cost", nullable = false, unique = false)
+    private Integer cost;
+
+    @Column(name = "quantity", nullable = false, unique = false)
+    private Integer quantity;
+
+    @Column(name = "type", nullable = false, unique = false)
+    private String type;
 
     // Default, empty constructor
-    InvoiceItem() {}
-    
+    InvoiceItem() {
+    }
+
     // Custom constructor with all attributes except ID
     InvoiceItem(String name, Integer cost, Integer quantity, String type, Integer invoiceId) {
         this.name = name;
@@ -92,37 +109,37 @@ public class InvoiceItem {
         // Is object the same instance?
         if (this == object)
             return true;
-        
+
         // Is object of InvoiceItem type?
         if (!(object instanceof InvoiceItem))
             return false;
 
         // Cast object to InvoiceItem type then compare all attributes
-        InvoiceItem other = (InvoiceItem)object;
-        return Objects.equals(this.id, other.id) && 
-            Objects.equals(this.name, other.name) && 
-            Objects.equals(this.cost, other.cost) &&
-            Objects.equals(this.quantity, other.quantity) &&
-            Objects.equals(this.type, other.type) &&
-            Objects.equals(this.invoiceId, other.invoiceId);
+        InvoiceItem other = (InvoiceItem) object;
+        return Objects.equals(getId(), other.getId()) &&
+                Objects.equals(getInvoiceId(), other.getInvoiceId()) &&
+                Objects.equals(getName(), other.getName()) &&
+                Objects.equals(getCost(), other.getCost()) &&
+                Objects.equals(getQuantity(), other.getQuantity()) &&
+                Objects.equals(getType(), other.getType());
     }
 
     @Override
     public int hashCode() {
         // Calculate hash value for this instance
-        return Objects.hash(this.id, this.name, this.cost, this.quantity, this.type, this.invoiceId);
+        return Objects.hash(getId(), getInvoiceId(), getName(), getCost(), getQuantity(), getType());
     }
 
     @Override
     public String toString() {
         // return string representation of an InvoiceItem object
         return "InvoiceItem{" +
-            "id=" + this.id +
-            ", name=" + this.name +
-            ", cost=" + this.cost +
-            ", quantity=" + this.quantity +
-            ", type=" + this.type +
-            ", invoiceId=" + this.invoiceId +
-            "}";
+                "id=" + getId() +
+                "invoiceId=" + getInvoiceId() +
+                ", name=" + getName() +
+                ", cost=" + getCost() +
+                ", quantity=" + getQuantity() +
+                ", type=" + getType() +
+                "}";
     }
 }
