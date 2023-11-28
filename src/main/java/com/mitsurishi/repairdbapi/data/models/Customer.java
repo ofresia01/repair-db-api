@@ -1,5 +1,5 @@
 /*
- * Customer domain class for JPA-based data store, which allows JPA to handle database interactions.
+ * Customer domain class for Jakarta Persistence Layer (JPL), which allows Java Persistence API (JPA) to handle database interactions.
  */
 package com.mitsurishi.repairdbapi.data.models;
 
@@ -8,12 +8,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.Objects;
+import java.util.Set;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "\"Customer\"")
 public class Customer {
     // Private member variables
     // Annotations denoting primary key of entity with automatic generation strategy
@@ -22,14 +27,19 @@ public class Customer {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @Column(name = "name", nullable = false, unique = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, unique = false)
+    @Column(name = "phone_number", nullable = false)
     private String phone_number;
+
+    // NotFound annotation as this is a one to zero-or-many relationship
+    @OneToMany(mappedBy = "customer")
+    // @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Ticket> tickets;
 
     // Default, empty constructor
     Customer() {

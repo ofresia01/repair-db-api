@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mitsurishi.repairdbapi.data.repositories.TicketRepository;
+import com.mitsurishi.repairdbapi.data.models.Customer;
+import com.mitsurishi.repairdbapi.data.models.Employee;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
@@ -26,9 +28,9 @@ public class TicketService {
      * Method for creating an invoice.
      * Creates an Invoice object, saves it to InvoiceRepository.
      */
-    public MessageResponse createTicket(Integer employee_id, Integer customer_id, String device_desc, String issue_desc, String status,
+    public MessageResponse createTicket(Employee employee, Customer customer, String device_desc, String issue_desc, String status,
             Date created_on) {
-        Ticket newTicket = new Ticket(employee_id, customer_id, device_desc, issue_desc,status,created_on);
+        Ticket newTicket = new Ticket(employee, customer, device_desc, issue_desc, status, created_on);
         ticketRepository.save(newTicket);
         return new MessageResponse("SUCCESSFUL");
     }
@@ -38,7 +40,7 @@ public class TicketService {
      * Queries data store with invoice ID and returns it or otherwise returns
      * ResourceNotFoundException.
      */
-    public Ticket getSingleInvoice(Integer ticketId) throws ResourceNotFoundException {
+    public Ticket getSingleTicket(Integer ticketId) throws ResourceNotFoundException {
         return ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "ID", ticketId));
     }

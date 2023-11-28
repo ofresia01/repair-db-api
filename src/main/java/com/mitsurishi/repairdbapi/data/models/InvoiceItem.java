@@ -1,38 +1,44 @@
 /*
- * InvoiceItem domain class for JPA-based data store, which allows JPA to handle database interactions.
+ * InvoiceItem domain class for Jakarta Persistence Layer (JPL), which allows Java Persistence API (JPA) to handle database interactions.
  */
 package com.mitsurishi.repairdbapi.data.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import java.util.Objects;
 
 @Entity
+@Table(name = "\"InvoiceItem\"")
 public class InvoiceItem {
     // Attributes (all private)
-    // JPA annotations indicating id as auto-generated (via JPA provider) primary key
+    // JPL annotations indicating id as auto-generated (via JPL provider) primary
+    // key
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
-    private Integer id; 
+    private Integer id;
 
-    @Column(name = "invoice_id", nullable = false, unique = true)
-    private Integer invoiceId;
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+    private Invoice invoice;
 
-    @Column(name = "name", nullable = false, unique = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "cost", nullable = false, unique = false)
+    @Column(name = "cost", nullable = false)
     private Integer cost;
 
-    @Column(name = "quantity", nullable = false, unique = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "type", nullable = false, unique = false)
+    @Column(name = "type", nullable = false)
     private String type;
 
     // Default, empty constructor
@@ -40,12 +46,12 @@ public class InvoiceItem {
     }
 
     // Custom constructor with all attributes except ID
-    InvoiceItem(String name, Integer cost, Integer quantity, String type, Integer invoiceId) {
+    InvoiceItem(String name, Integer cost, Integer quantity, String type, Invoice invoice) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
         this.type = type;
-        this.invoiceId = invoiceId;
+        this.invoice = invoice;
     }
 
     // Getters
@@ -59,22 +65,18 @@ public class InvoiceItem {
 
     public Integer getCost() {
         return this.cost;
-
     }
 
     public Integer getQuantity() {
         return this.quantity;
-
     }
 
     public String getType() {
         return this.type;
-
     }
 
-    public Integer getInvoiceId() {
-        return this.invoiceId;
-
+    public Invoice getInvoice() {
+        return this.invoice;
     }
 
     // Setters
@@ -98,8 +100,8 @@ public class InvoiceItem {
         this.type = type;
     }
 
-    public void setInvoiceId(Integer invoiceId) {
-        this.invoiceId = invoiceId;
+    public void setInvoiceId(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     // Overwrite .equals(), .hashCode(), and .toString()
@@ -117,7 +119,7 @@ public class InvoiceItem {
         // Cast object to InvoiceItem type then compare all attributes
         InvoiceItem other = (InvoiceItem) object;
         return Objects.equals(getId(), other.getId()) &&
-                Objects.equals(getInvoiceId(), other.getInvoiceId()) &&
+                Objects.equals(getInvoice(), other.getInvoice()) &&
                 Objects.equals(getName(), other.getName()) &&
                 Objects.equals(getCost(), other.getCost()) &&
                 Objects.equals(getQuantity(), other.getQuantity()) &&
@@ -127,7 +129,7 @@ public class InvoiceItem {
     @Override
     public int hashCode() {
         // Calculate hash value for this instance
-        return Objects.hash(getId(), getInvoiceId(), getName(), getCost(), getQuantity(), getType());
+        return Objects.hash(getId(), getInvoice(), getName(), getCost(), getQuantity(), getType());
     }
 
     @Override
@@ -135,7 +137,7 @@ public class InvoiceItem {
         // return string representation of an InvoiceItem object
         return "InvoiceItem{" +
                 "id=" + getId() +
-                "invoiceId=" + getInvoiceId() +
+                "invoice=" + getInvoice().toString() +
                 ", name=" + getName() +
                 ", cost=" + getCost() +
                 ", quantity=" + getQuantity() +
