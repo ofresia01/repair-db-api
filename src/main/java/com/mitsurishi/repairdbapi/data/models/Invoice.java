@@ -1,27 +1,50 @@
 /*
- * Invoice domain class for JPA-based data store, which allows JPA to handle database interactions.
+ * Invoice domain class for Jakarta Persistence Layer (JPL), which allows Java Persistence API (JPA) to handle database interactions.
  */
 package com.mitsurishi.repairdbapi.data.models;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
-import java.util.Date;
-import java.util.Objects;
+import jakarta.persistence.GenerationType;
 
-@Entity // JPA annotation that prepares object for storage in JPA-based data store
+import java.util.Objects;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity // JPL annotation that prepares object for storage in JPL-based data store
+@Table(name = "\"Invoice\"")
 public class Invoice {
     // Private attributes
-    private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-populated (via JPA provider) primary key
-    private Integer ticketId;
-    
+    // JPL annotations indicating id as auto-populated (via JPL provider) primary
+    // key
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    private Ticket ticket;
+
+    @OneToMany(mappedBy = "invoice")
+    private Set<InvoiceItem> invoiceItems;
+
     // Default, empty constructor
     public Invoice() {
     }
 
     // Custom constructor for creating this domain object without yet having an ID
-    public Invoice(Integer ticketId, Integer customerId, String customerName, Date dateCompleted) {
-        this.ticketId = ticketId;
+    public Invoice(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     // Accessors
@@ -29,8 +52,9 @@ public class Invoice {
         return this.id;
     }
 
-    public Integer getTicketId() {
-        return this.ticketId;
+
+    public Ticket getTicket() {
+        return this.ticket;
     }
 
     // Mutators
@@ -38,8 +62,8 @@ public class Invoice {
         this.id = id;
     }
 
-    public void setTicketId(Integer ticketId) {
-        this.ticketId = ticketId;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     // Overriden equals, hashCode, and toString methods
@@ -55,18 +79,18 @@ public class Invoice {
 
         // Cast object to Invoice, check if all attributes are equal
         Invoice invoice = (Invoice) object;
-        return Objects.equals(this.id, invoice.id) && Objects.equals(this.ticketId, invoice.ticketId);
+        return Objects.equals(getId(), invoice.getId()) && getTicket().equals(invoice.getTicket());
     }
 
     @Override
     public int hashCode() {
         // Computes hash value of this instance
-        return Objects.hash(this.id, this.ticketId);
+        return Objects.hash(getId(), getTicket().hashCode());
     }
 
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Invoice{" + "id=" + this.id + ", ticketId=" + this.ticketId + "}";
+        return "Invoice{" + "id=" + getId() + ", ticketId=" + getTicket().getId() + "}";
     }
 }

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.mitsurishi.repairdbapi.data.models.Invoice;
+import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.service.InvoiceService;
+import com.mitsurishi.repairdbapi.service.TicketService;
 
 @RestController // Stereotype annotation indicating data returned by each method will be written
                 // straight to response body, instead of rendering templates (views)
@@ -29,15 +31,17 @@ public class RepairDbApiController {
     @Autowired
     InvoiceService invoiceService;
 
+    @Autowired
+    TicketService ticketService;
+
     /*
      * ----------------------INVOICE REQUESTS-----------------------
      */
     // Create single invoice via data provided by request
     @PostMapping("/invoices/{ticketId}/{customerId}/{customerName}/{dateCompleted}")
-    public ResponseEntity<MessageResponse> createInvoice(@PathVariable("ticketId") Integer ticketId,
-            @PathVariable("customerId") Integer customerId, @PathVariable("customerName") String customerName,
-            @PathVariable("dateCompleted") Date dateCompleted) {
-        MessageResponse response = invoiceService.createInvoice(ticketId, customerId, customerName, dateCompleted);
+    public ResponseEntity<MessageResponse> createInvoice(@PathVariable("ticketId") Integer ticketId) {
+        Ticket ticket = ticketService.getSingleTicket(ticketId);
+        MessageResponse response = invoiceService.createInvoice(ticket);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -60,7 +64,8 @@ public class RepairDbApiController {
     public ResponseEntity<MessageResponse> updateInvoice(@PathVariable("invoiceId") Integer invoiceId,
             @PathVariable("ticketId") Integer ticketId, @PathVariable("customerId") Integer customerId,
             @PathVariable("customerName") String customerName, @PathVariable("dateCompleted") Date dateCompleted) {
-        MessageResponse response = invoiceService.updateInvoice(invoiceId, ticketId, customerId, customerName,
+        Ticket ticket = ticketService.getSingleTicket(ticketId);
+        MessageResponse response = invoiceService.updateInvoice(invoiceId, ticket, customerId, customerName,
                 dateCompleted);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

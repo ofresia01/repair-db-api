@@ -1,56 +1,84 @@
 /*
- * Note domain class for JPA-based data store, which allows JPA to handle database interactions.
+ * Note domain class for Jakarta Persistence Layer (JPL), which allows Java Persistence API (JPA) to handle database interactions.
  */
 package com.mitsurishi.repairdbapi.data.models;
 
 import java.util.Objects;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "\"Note\"")
 public class Note {
-    // Attrubutes (all private)
-    private @Id @GeneratedValue Integer id; // JPA annotations indicating id as auto-generated (via JPA provider) primary key
-    private String text;
-    private Integer ticketId;
-    private @JoinColumn(name = "employee", referencedColumnName = "id") Employee employee;
+    // Attributes (all private)
+    // JPL annotations indicating id as auto-generated (via JPL provider) primary
+    // key
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, unique = true)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    private Ticket ticket;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
+
+    @Column(name = "note", nullable = false)
+    private String note;
 
     // Default, empty constructor
-    Note() {}
+    Note() {
+    }
 
     // Custom constructor with all attributes except ID
-    Note(String text, Integer ticketId, Employee employee) {
-        this.text = text;
-        this.ticketId = ticketId;
+    Note(Ticket ticket, Employee employee, String note) {
+        this.ticket = ticket;
         this.employee = employee;
+        this.note = note;
     }
 
     // Getters
-    public String getNote() {
-        return this.text;
+    public Integer getId() {
+        return this.id;
     }
 
-    public Integer getTicketId() {
-        return this.ticketId;
+    public Ticket getTicket() {
+        return this.ticket;
     }
 
     public Employee getEmployee() {
         return this.employee;
     }
 
-    // Setters
-    public void setNote(String text) {
-        this.text = text;
+    public String getNote() {
+        return this.note;
     }
 
-    public void setTicketId(Integer ticketId) {
-        this.ticketId = ticketId;
+    // Setters
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     // Override .equals(), .hashCode(), and .toString()
@@ -66,25 +94,25 @@ public class Note {
 
         // Cast object to Note type and check all attributes
         Note other = (Note) object;
-        return Objects.equals(this.id, other.id) &&
-            Objects.equals(this.text, other.text) &&
-            Objects.equals(this.ticketId, other.ticketId) &&
-            Objects.equals(this.employee, other.employee);
+        return Objects.equals(getId(), other.getId()) &&
+                getTicket().equals(other.getTicket()) &&
+                getEmployee().equals(other.getEmployee()) &&
+                Objects.equals(getNote(), other.getNote());
     }
 
     @Override
     public int hashCode() {
         // Calculate hash value for this instance
-        return Objects.hash(this.id, this.text, this.ticketId, this.employee);
+        return Objects.hash(getId(), getTicket().hashCode(), getEmployee(), getNote());
     }
 
     @Override
     public String toString() {
-        return "Note{" + 
-            "id=" + this.id +
-            ", text=" + this.text +
-            ", ticketId=" + this.ticketId +
-            ", employee=" + this.employee +
-            "}";
+        return "Note{" +
+                "id=" + getId() +
+                ", ticketId" + getTicket().toString() +
+                ", employeeId=" + getEmployee().toString() +
+                ", note=" + getNote() +
+                "}";
     }
 }

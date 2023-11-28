@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mitsurishi.repairdbapi.data.repositories.InvoiceRepository;
 import com.mitsurishi.repairdbapi.data.models.Invoice;
+import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 
@@ -17,8 +18,7 @@ import java.util.Optional;
 
 @Service // Specify class as Service bean for component scanning
 public class InvoiceService {
-    // Instantiate repository object for JPA data store operations, autowire for
-    // dependency injection
+    // Instantiate repository object for JPA data store operations, autowire for dependency injection
     @Autowired
     InvoiceRepository invoiceRepository;
 
@@ -26,9 +26,8 @@ public class InvoiceService {
      * Method for creating an invoice.
      * Creates an Invoice object, saves it to InvoiceRepository.
      */
-    public MessageResponse createInvoice(Integer ticketId, Integer customerId, String customerName,
-            Date dateCompleted) {
-        Invoice newInvoice = new Invoice(ticketId, customerId, customerName, dateCompleted);
+    public MessageResponse createInvoice(Ticket ticket) {
+        Invoice newInvoice = new Invoice(ticket);
         invoiceRepository.save(newInvoice);
         return new MessageResponse("SUCCESSFUL");
     }
@@ -57,13 +56,13 @@ public class InvoiceService {
      * Queries for Invoice by given ID.
      * If Invoice exists, update it. Otherwise, throw a ResourceNotFoundException.
      */
-    public MessageResponse updateInvoice(Integer invoiceId, Integer ticketId, Integer customerId, String customerName,
+    public MessageResponse updateInvoice(Integer invoiceId, Ticket ticket, Integer customerId, String customerName,
             Date dateCompleted) throws ResourceNotFoundException {
         Optional<Invoice> oldInvoice = invoiceRepository.findById(invoiceId);
         if (oldInvoice.isEmpty()) {
             throw new ResourceNotFoundException("Invoice", "ID", invoiceId);
         } else {
-            oldInvoice.get().setTicketId(ticketId);
+            oldInvoice.get().setTicket(ticket);
             invoiceRepository.save(oldInvoice.get());
             return new MessageResponse("SUCCESSFUL");
         }
