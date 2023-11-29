@@ -47,7 +47,8 @@ public class TicketService {
      * @param status            Current status of this ticket.
      * @param createdOn         Date object describing the time this ticket was
      *                          created.
-     * @return MessageResponse indicating success, otherwise ResourceNotFoundException.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
      */
     public MessageResponse createTicket(Integer employeeId, Integer customerId, String deviceDescription,
             String issueDescription, String status,
@@ -58,9 +59,12 @@ public class TicketService {
             throw new ResourceNotFoundException("employee", "employeeId", employeeId);
         else if (customer.isEmpty())
             throw new ResourceNotFoundException("customer", "customerId", customerId);
-        Ticket newTicket = new Ticket(employee.get(), customer.get(), deviceDescription, issueDescription, status, createdOn);
-        ticketRepository.save(newTicket);
-        return new MessageResponse("SUCCESSFUL");
+        else {
+            Ticket newTicket = new Ticket(employee.get(), customer.get(), deviceDescription, issueDescription, status,
+                    createdOn);
+            ticketRepository.save(newTicket);
+            return new MessageResponse("SUCCESSFUL");
+        }
     }
 
     /**
