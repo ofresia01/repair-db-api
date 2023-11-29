@@ -62,7 +62,7 @@ public class InvoiceService {
         if (oldInvoice.isEmpty()) {
             throw new ResourceNotFoundException("Invoice", "ID", invoiceId);
         } else {
-            oldInvoice.get().setTicket(ticket);
+            // oldInvoice.get().setTicket(ticket);
             invoiceRepository.save(oldInvoice.get());
             return new MessageResponse("SUCCESSFUL");
         }
