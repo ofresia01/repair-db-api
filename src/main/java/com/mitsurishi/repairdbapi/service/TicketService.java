@@ -7,11 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mitsurishi.repairdbapi.data.repositories.TicketRepository;
+import com.mitsurishi.repairdbapi.data.repositories.EmployeeRepository;
+import com.mitsurishi.repairdbapi.data.repositories.CustomerRepository;
+import com.mitsurishi.repairdbapi.data.repositories.NoteRepository;
+import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 import com.mitsurishi.repairdbapi.data.models.Customer;
 import com.mitsurishi.repairdbapi.data.models.Employee;
+import com.mitsurishi.repairdbapi.data.models.Note;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
-import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 
 import java.util.Date;
 import java.util.List;
@@ -19,69 +23,166 @@ import java.util.Optional;
 
 @Service // Specify class as Service bean for component scanning
 public class TicketService {
-    // Instantiate repository object for JPA data store operations, autowire for
+    // Instantiate repository objects for JPA data store operations, autowire for
     // dependency injection
     @Autowired
     TicketRepository ticketRepository;
 
-    /*
-     * Method for creating an invoice.
-     * Creates an Invoice object, saves it to InvoiceRepository.
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    NoteRepository noteRepository;
+
+    /**
+     * Method that sends data to JPA for inserting a new ticket.
+     * 
+     * @param employee          Employee object to be associated with this ticket.
+     * @param customer          Customer object to be associated with this ticket.
+     * @param deviceDescription Description of the device for this ticket.
+     * @param issueDescription  Description of the issue for this ticket.
+     * @param status            Current status of this ticket.
+     * @param createdOn         Date object describing the time this ticket was
+     *                          created.
+     * @return MessageResponse object relaying status of the insertion.
      */
-    public MessageResponse createTicket(Employee employee, Customer customer, String device_desc, String issue_desc, String status,
-            Date created_on) {
-        Ticket newTicket = new Ticket(employee, customer, device_desc, issue_desc, status, created_on);
+    public MessageResponse createTicket(Employee employee, Customer customer, String deviceDescription,
+            String issueDescription, String status,
+            Date createdOn) {
+        Ticket newTicket = new Ticket(employee, customer, deviceDescription, issueDescription, status, createdOn);
         ticketRepository.save(newTicket);
         return new MessageResponse("SUCCESSFUL");
     }
 
-    /*
-     * Method for retrieving a single invoice by its ID.
-     * Queries data store with invoice ID and returns it or otherwise returns
-     * ResourceNotFoundException.
+    /**
+     * Method that retrieves single ticket from JPA via ticket ID.
+     * 
+     * @param ticketId Id of the ticket.
+     * @return The ticket belonging to that ID or else a ResourceNotFoundException.
      */
-    public Ticket getSingleTicket(Integer ticketId) throws ResourceNotFoundException {
+    public Ticket getTicketById(Integer ticketId) {
         return ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new ResourceNotFoundException("Ticket", "ID", ticketId));
+                .orElseThrow(() -> new ResourceNotFoundException("ticket", "ticketId", ticketId));
     }
 
-    /*
-     * Method for retrieving all invoices.
-     * Queries data store for all invoices and returns them.
-     * If no invoices exist or are retrievable, throw ResourceNotFoundException.
+    /**
+     * Method that retrieves all tickets from JPA.
+     * 
+     * @return List object containing all tickets retrievable.
      */
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
 
-    /*
-     * Method for updating an invoice.
-     * Queries for Invoice by given ID.
-     * If Invoice exists, update it. Otherwise, throw a ResourceNotFoundException.
+    /**
+     * Method that updates a ticket in JPA.
+     * 
+     * @param ticketId          ID of the ticket to be updated.
+     * @param employeeId        ID of employee associated with this ticket.
+     * @param customerId        ID of customer associated with this ticket.
+     * @param deviceDescription Description of the device for this ticket.
+     * @param issueDescription  Description of the issue for this ticket.
+     * @param status            Current status of this ticket.
+     * @param createdOn         Date object describing the time this ticket was
+     *                          created.
+     * @return MessageResponse indicating success, otherwise throws
+     *         ResourceNotFoundException
      */
-    public MessageResponse updateTicket(Integer ticket_id, Integer employee_id, Integer customer_id, String device_desc, String issue_desc, String status,
-            Date created_on) throws ResourceNotFoundException {
-        Optional<Ticket> oldTicket = ticketRepository.findById(ticket_id);
-        if (oldTicket.isEmpty()) {
-            throw new ResourceNotFoundException("Invoice", "ID", ticket_id);
-        } else {
-            oldTicket.get();
-            ticketRepository.save(oldTicket.get());
+    public MessageResponse updateTicket(Integer ticketId, Integer employeeId, Integer customerId,
+            String deviceDescription, String issueDescription, String status, Date createdOn) {
+        Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (ticket.isEmpty())
+            throw new ResourceNotFoundException("ticket", "ticketId", ticketId);
+        else if (employee.isEmpty())
+            throw new ResourceNotFoundException("employee", "employeeId", employeeId);
+        else if (customer.isEmpty())
+            throw new ResourceNotFoundException("customer", "customerId", customerId);
+        else {
+            ticket.get().setEmployee(employee.get());
+            ticket.get().setCustomer(customer.get());
+            ticket.get().setDeviceDescription(deviceDescription);
+            ticket.get().setIssueDescription(issueDescription);
+            ticket.get().setStatus(status);
+            ticket.get().setCreatedDate(createdOn);
+            ticketRepository.save(ticket.get());
             return new MessageResponse("SUCCESSFUL");
         }
     }
 
-    /*
-     * Method for deleting an invoice.
-     * Queries for Invoice by given ID. If it exists, it's deleted. Otherwise, a
-     * ResourceNotFoundException is thrown.
+    /**
+     * Method that deletes ticket from JPA.
+     * 
+     * @param ticketId ID of the ticket to be deleted.
+     * @return MessageResponse indicating success, otherwise a
+     *         ResourceNotFoundException.
      */
-    public MessageResponse deleteInvoice(Integer ticketID) throws ResourceNotFoundException {
-        if (ticketRepository.getReferenceById(ticketID).getId().equals(ticketID)) {
-            ticketRepository.deleteById(ticketID);
-            return new MessageResponse("SUCCESS");
-        } else {
-            throw new ResourceNotFoundException("Invoice", "ID", ticketID);
+    public MessageResponse deleteTicket(Integer ticketId) {
+        if (ticketRepository.getReferenceById(ticketId).getId().equals(ticketId)) {
+            ticketRepository.deleteById(ticketId);
+            return new MessageResponse("SUCCESSFUL");
+        } else
+            throw new ResourceNotFoundException("ticket", "ticketId", ticketId);
+    }
+
+    /**
+     * Method that inserts a new note object to JPA.
+     * 
+     * @param ticketId   ID of the ticket associated with this note.
+     * @param employeeId ID of the employee associated with this note.
+     * @param note       The message to be saved.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
+     */
+    public MessageResponse createNote(Integer ticketId, Integer employeeId, String note) {
+        Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if (ticket.isEmpty())
+            throw new ResourceNotFoundException("ticket", "ticketId", ticketId);
+        else if (employee.isEmpty())
+            throw new ResourceNotFoundException("employee", "employeeId", employeeId);
+        else {
+            Note noteObject = new Note(ticket.get(), employee.get(), note);
+            noteRepository.save(noteObject);
+            return new MessageResponse("SUCCESSFUL");
         }
+    }
+
+    /**
+     * Method that updates a note in JPA.
+     * 
+     * @param noteId  ID of the note to be updated.
+     * @param message New message to be contained within the note.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
+     */
+    public MessageResponse updateNote(Integer noteId, String message) {
+        Optional<Note> note = noteRepository.findById(noteId);
+        if (note.isEmpty())
+            throw new ResourceNotFoundException("note", "noteId", noteId);
+        else {
+            note.get().setNote(message);
+            noteRepository.save(note.get());
+            return new MessageResponse("SUCCESSFUL");
+        }
+    }
+
+    /**
+     * Method that deletes note from JPA.
+     * 
+     * @param noteId ID of the note to be deleted.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
+     */
+    public MessageResponse deleteNote(Integer noteId) {
+        if (noteRepository.getReferenceById(noteId).getId().equals(noteId)) {
+            noteRepository.deleteById(noteId);
+            return new MessageResponse("SUCCESSFUL");
+        } else
+            throw new ResourceNotFoundException("note", "noteId", noteId);
     }
 }

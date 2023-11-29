@@ -7,9 +7,6 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

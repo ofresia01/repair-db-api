@@ -14,9 +14,6 @@ import jakarta.persistence.GenerationType;
 import java.util.Objects;
 import java.util.Set;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 @Entity // JPL annotation that prepares object for storage in JPA based data store
 @Table(name = "\"Employee\"")
 public class Employee {

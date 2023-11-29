@@ -37,11 +37,11 @@ public class Note {
     private String note;
 
     // Default, empty constructor
-    Note() {
+    public Note() {
     }
 
     // Custom constructor with all attributes except ID
-    Note(Ticket ticket, Employee employee, String note) {
+    public Note(Ticket ticket, Employee employee, String note) {
         this.ticket = ticket;
         this.employee = employee;
         this.note = note;
