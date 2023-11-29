@@ -40,19 +40,25 @@ public class TicketService {
     /**
      * Method that sends data to JPA for inserting a new ticket.
      * 
-     * @param employee          Employee object to be associated with this ticket.
-     * @param customer          Customer object to be associated with this ticket.
+     * @param employeeId        ID of employee to be associated with this ticket.
+     * @param customerId        Id of customer to be associated with this ticket.
      * @param deviceDescription Description of the device for this ticket.
      * @param issueDescription  Description of the issue for this ticket.
      * @param status            Current status of this ticket.
      * @param createdOn         Date object describing the time this ticket was
      *                          created.
-     * @return MessageResponse object relaying status of the insertion.
+     * @return MessageResponse indicating success, otherwise ResourceNotFoundException.
      */
-    public MessageResponse createTicket(Employee employee, Customer customer, String deviceDescription,
+    public MessageResponse createTicket(Integer employeeId, Integer customerId, String deviceDescription,
             String issueDescription, String status,
             Date createdOn) {
-        Ticket newTicket = new Ticket(employee, customer, deviceDescription, issueDescription, status, createdOn);
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if (employee.isEmpty())
+            throw new ResourceNotFoundException("employee", "employeeId", employeeId);
+        else if (customer.isEmpty())
+            throw new ResourceNotFoundException("customer", "customerId", customerId);
+        Ticket newTicket = new Ticket(employee.get(), customer.get(), deviceDescription, issueDescription, status, createdOn);
         ticketRepository.save(newTicket);
         return new MessageResponse("SUCCESSFUL");
     }
