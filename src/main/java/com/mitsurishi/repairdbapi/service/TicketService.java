@@ -131,10 +131,12 @@ public class TicketService {
 
     /**
      * Method that inserts a new note object to JPA.
-     * @param ticketId ID of the ticket associated with this note.
+     * 
+     * @param ticketId   ID of the ticket associated with this note.
      * @param employeeId ID of the employee associated with this note.
-     * @param note The message to be saved.
-     * @return MessageResponse indicating success, otherwise ResourceNotFoundException.
+     * @param note       The message to be saved.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
      */
     public MessageResponse createNote(Integer ticketId, Integer employeeId, String note) {
         Optional<Ticket> ticket = ticketRepository.findById(ticketId);
@@ -152,9 +154,11 @@ public class TicketService {
 
     /**
      * Method that updates a note in JPA.
-     * @param noteId ID of the note to be updated.
+     * 
+     * @param noteId  ID of the note to be updated.
      * @param message New message to be contained within the note.
-     * @return MessageResponse indicating success, otherwise ResourceNotFoundException.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
      */
     public MessageResponse updateNote(Integer noteId, String message) {
         Optional<Note> note = noteRepository.findById(noteId);
@@ -169,14 +173,16 @@ public class TicketService {
 
     /**
      * Method that deletes note from JPA.
+     * 
      * @param noteId ID of the note to be deleted.
-     * @return MessageResponse indicating success, otherwise ResourceNotFoundException.
+     * @return MessageResponse indicating success, otherwise
+     *         ResourceNotFoundException.
      */
     public MessageResponse deleteNote(Integer noteId) {
         if (noteRepository.getReferenceById(noteId).getId().equals(noteId)) {
             noteRepository.deleteById(noteId);
             return new MessageResponse("SUCCESSFUL");
-        }
-        else throw new ResourceNotFoundException("note", "noteId", noteId);
+        } else
+            throw new ResourceNotFoundException("note", "noteId", noteId);
     }
 }
