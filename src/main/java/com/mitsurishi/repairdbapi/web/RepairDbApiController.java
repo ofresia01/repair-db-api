@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.mitsurishi.repairdbapi.data.models.Invoice;
+import com.mitsurishi.repairdbapi.data.models.Customer;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
+import com.mitsurishi.repairdbapi.service.CustomerService;
 import com.mitsurishi.repairdbapi.service.InvoiceService;
 import com.mitsurishi.repairdbapi.service.TicketService;
 
@@ -24,6 +27,9 @@ import com.mitsurishi.repairdbapi.service.TicketService;
 public class RepairDbApiController {
     // Instantiate service objects for layered request handling, autowire for
     // dependency injection
+    @Autowired
+    CustomerService customerService;
+
     @Autowired
     InvoiceService invoiceService;
 
@@ -36,23 +42,28 @@ public class RepairDbApiController {
     // Create single invoice via data provided by request
 
     // Retrieve single invoice via ID provided by request
-    @GetMapping("/invoices/find/{id}")
-    public ResponseEntity<Invoice> getInvoiceById(@PathVariable("id") Integer id) {
-        Invoice invoice = invoiceService.getSingleInvoice(id);
-        return new ResponseEntity<>(invoice, HttpStatus.OK);
+    @GetMapping("/customers/find/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Integer id){
+        Customer customer = customerService.getCustomerById(id);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
+    // @GetMapping("/invoices/find/{id}")
+    // public ResponseEntity<Invoice> getInvoiceById(@PathVariable("id") Integer id) {
+    //     Invoice invoice = invoiceService.getSingleInvoice(id);
+    //     return new ResponseEntity<>(invoice, HttpStatus.OK);
+    // }
 
-    // Retrieve all invoices
-    @GetMapping("/invoices/find/all")
-    public ResponseEntity<List<Invoice>> getAllInvoices() {
-        List<Invoice> allInvoices = invoiceService.getAllInvoices();
-        return new ResponseEntity<>(allInvoices, HttpStatus.OK);
-    }
+    // // Retrieve all invoices
+    // @GetMapping("/invoices/find/all")
+    // public ResponseEntity<List<Invoice>> getAllInvoices() {
+    //     List<Invoice> allInvoices = invoiceService.getAllInvoices();
+    //     return new ResponseEntity<>(allInvoices, HttpStatus.OK);
+    // }
 
-    // Delete invoice of given ID
-    @DeleteMapping("/invoices/{invoiceId}")
-    public ResponseEntity<MessageResponse> deleteInvoice(@PathVariable("invoiceId") Integer invoiceId) {
-        MessageResponse response = invoiceService.deleteInvoice(invoiceId);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    // // Delete invoice of given ID
+    // @DeleteMapping("/invoices/{invoiceId}")
+    // public ResponseEntity<MessageResponse> deleteInvoice(@PathVariable("invoiceId") Integer invoiceId) {
+    //     MessageResponse response = invoiceService.deleteInvoice(invoiceId);
+    //     return new ResponseEntity<>(response, HttpStatus.OK);
+    // }
 }
