@@ -3,7 +3,7 @@
  */
 package com.mitsurishi.repairdbapi.data.models;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -69,14 +69,15 @@ public class Ticket {
 
     // Parameterized constructor for creating domain object without an ID
     public Ticket(Employee employee, Customer customer, String deviceDescription, String issueDescription,
-            String status,
-            Date createdOn) {
+            String status) {
+        long currentTimeMillis = System.currentTimeMillis();
+        Date currentDate = new Date(currentTimeMillis);
         this.employee = employee;
         this.customer = customer;
         this.deviceDescription = deviceDescription;
         this.issueDescription = issueDescription;
         this.status = status;
-        this.createdOn = createdOn;
+        this.createdOn = currentDate;
     }
 
     // Accessors
