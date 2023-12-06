@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mitsurishi.repairdbapi.data.models.Invoice;
 import com.mitsurishi.repairdbapi.data.models.Customer;
@@ -46,6 +48,21 @@ public class RepairDbApiController {
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Integer id){
         Customer customer = customerService.getCustomerById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<List<Customer>> getCustomers(){
+        List<Customer> customer = customerService.getAllCustomers();
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    @PostMapping("/customers")
+    public ResponseEntity<MessageResponse> createcustomer(@RequestParam String name, @RequestParam String email, @RequestParam String phoneNumber){
+        System.err.println(name);
+        System.err.println(email);
+        System.err.println(phoneNumber);
+        MessageResponse response = customerService.createCustomer(name,email,phoneNumber);
+        return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
     }
     // @GetMapping("/invoices/find/{id}")
     // public ResponseEntity<Invoice> getInvoiceById(@PathVariable("id") Integer id) {

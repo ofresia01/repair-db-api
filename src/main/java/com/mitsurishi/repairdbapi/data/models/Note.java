@@ -21,7 +21,7 @@ public class Note {
     // JPL annotations indicating id as auto-generated (via JPL provider) primary
     // key
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 

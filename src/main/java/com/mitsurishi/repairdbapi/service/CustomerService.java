@@ -29,9 +29,9 @@ public class CustomerService {
         return new MessageResponse("SUCCESSFUL");
     }
 
-    public Customer getCustomerById(Integer ticketId){
-        return customerRepository.findById(ticketId)
-                .orElseThrow(() -> new ResourceNotFoundException("ticket", "ticketId", ticketId));
+    public Customer getCustomerById(Integer customerID){
+        return customerRepository.findById(customerID)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "CustomerID", customerID));
     }
 
     public List<Customer> getAllCustomers(){

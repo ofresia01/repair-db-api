@@ -29,7 +29,7 @@ public class Ticket {
     // JPL annotations that denote ID as an auto-populated (via JPL provider)
     // primary key
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 

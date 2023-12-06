@@ -20,7 +20,7 @@ public class Customer {
     // Private member variables
     // Annotations denoting primary key of entity with automatic generation strategy
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
