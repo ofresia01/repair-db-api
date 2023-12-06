@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mitsurishi.repairdbapi.data.models.Invoice;
@@ -58,10 +59,13 @@ public class RepairDbApiController {
 
     @PostMapping("/customers")
     public ResponseEntity<MessageResponse> createcustomer(@RequestParam String name, @RequestParam String email, @RequestParam String phoneNumber){
-        System.err.println(name);
-        System.err.println(email);
-        System.err.println(phoneNumber);
         MessageResponse response = customerService.createCustomer(name,email,phoneNumber);
+        return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/customers")
+    public ResponseEntity<MessageResponse> updateCustomer(@RequestParam Integer id, @RequestParam String name, @RequestParam String email, @RequestParam String phoneNumber){
+        MessageResponse response = customerService.updateCustomer(id,name,email,phoneNumber);
         return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
     }
     // @GetMapping("/invoices/find/{id}")
