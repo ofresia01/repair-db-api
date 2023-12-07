@@ -51,8 +51,7 @@ public class TicketService {
      *         ResourceNotFoundException.
      */
     public MessageResponse createTicket(Integer employeeId, Integer customerId, String deviceDescription,
-            String issueDescription, String status,
-            Date createdOn) {
+            String issueDescription, String status) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (employee.isEmpty())
@@ -60,8 +59,7 @@ public class TicketService {
         else if (customer.isEmpty())
             throw new ResourceNotFoundException("customer", "customerId", customerId);
         else {
-            Ticket newTicket = new Ticket(employee.get(), customer.get(), deviceDescription, issueDescription, status,
-                    createdOn);
+            Ticket newTicket = new Ticket(employee.get(), customer.get(), deviceDescription, issueDescription, status);
             ticketRepository.save(newTicket);
             return new MessageResponse("SUCCESSFUL");
         }
@@ -102,7 +100,7 @@ public class TicketService {
      *         ResourceNotFoundException
      */
     public MessageResponse updateTicket(Integer ticketId, Integer employeeId, Integer customerId,
-            String deviceDescription, String issueDescription, String status, Date createdOn) {
+            String deviceDescription, String issueDescription, String status) {
         Optional<Ticket> ticket = ticketRepository.findById(ticketId);
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         Optional<Customer> customer = customerRepository.findById(customerId);
@@ -118,7 +116,6 @@ public class TicketService {
             ticket.get().setDeviceDescription(deviceDescription);
             ticket.get().setIssueDescription(issueDescription);
             ticket.get().setStatus(status);
-            ticket.get().setCreatedDate(createdOn);
             ticketRepository.save(ticket.get());
             return new MessageResponse("SUCCESSFUL");
         }

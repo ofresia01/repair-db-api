@@ -3,9 +3,11 @@
  */
 package com.mitsurishi.repairdbapi.data.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,8 +21,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity // JPL annotation that prepares for storage in data store
 @Table(name = "\"Ticket\"")
@@ -50,9 +50,9 @@ public class Ticket {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Temporal(TemporalType.DATE)
+    @CreatedDate
     @Column(name = "created_on", nullable = false)
-    private Date createdOn;
+    private LocalDateTime createdOn;
 
     @JsonIgnore
     @OneToOne(mappedBy = "ticket")
@@ -60,7 +60,6 @@ public class Ticket {
 
     // NotFound annotation to satisfy one to zero-or-many relationship
     @OneToMany(mappedBy = "ticket")
-    // @NotFound(action = NotFoundAction.IGNORE)
     private Set<Note> notes;
 
     // Default, empty constructor
@@ -69,14 +68,13 @@ public class Ticket {
 
     // Parameterized constructor for creating domain object without an ID
     public Ticket(Employee employee, Customer customer, String deviceDescription, String issueDescription,
-            String status,
-            Date createdOn) {
+            String status) {
         this.employee = employee;
         this.customer = customer;
         this.deviceDescription = deviceDescription;
         this.issueDescription = issueDescription;
         this.status = status;
-        this.createdOn = createdOn;
+        this.createdOn = LocalDateTime.now();
     }
 
     // Accessors
@@ -104,7 +102,7 @@ public class Ticket {
         return this.status;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return this.createdOn;
     }
 
@@ -141,7 +139,7 @@ public class Ticket {
         this.status = status;
     }
 
-    public void setCreatedDate(Date createdOn) {
+    public void setCreatedDate(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
