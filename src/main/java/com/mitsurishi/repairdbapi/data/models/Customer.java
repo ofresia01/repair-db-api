@@ -20,7 +20,7 @@ public class Customer {
     // Private member variables
     // Annotations denoting primary key of entity with automatic generation strategy
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
@@ -43,7 +43,7 @@ public class Customer {
     }
 
     // Custom constructor with all attributes except ID
-    Customer(String name, String email, String phoneNumber) {
+    public Customer(String name, String email, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
