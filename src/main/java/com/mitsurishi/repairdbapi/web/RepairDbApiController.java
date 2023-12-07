@@ -5,10 +5,8 @@ package com.mitsurishi.repairdbapi.web;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import com.mitsurishi.repairdbapi.data.models.Invoice;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.service.InvoiceService;
@@ -36,8 +33,11 @@ public class RepairDbApiController {
     TicketService ticketService;
 
     @PostMapping("/tickets/{employeeId}/{customerId}/{deviceDescription}/{issueDescription}/{status}/{createdOn}")
-    public ResponseEntity<MessageResponse> createTicket(@PathVariable Integer employeeId, @PathVariable Integer customerId, @PathVariable String deviceDescription, @PathVariable String issueDescription, @PathVariable String status) {
-        MessageResponse response = ticketService.createTicket(employeeId, customerId, deviceDescription, issueDescription, status);
+    public ResponseEntity<MessageResponse> createTicket(@PathVariable Integer employeeId,
+            @PathVariable Integer customerId, @PathVariable String deviceDescription,
+            @PathVariable String issueDescription, @PathVariable String status) {
+        MessageResponse response = ticketService.createTicket(employeeId, customerId, deviceDescription,
+                issueDescription, status);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -54,8 +54,36 @@ public class RepairDbApiController {
     }
 
     @PutMapping("/tickets/{ticketId}/{employeeId}/{customerId}/{deviceDescription}/{issueDescription}/{status}/{createdOn}")
-    public ResponseEntity<MessageResponse> updateTicket(@PathVariable Integer ticketId, @PathVariable Integer employeeId, @PathVariable Integer customerId, @PathVariable String deviceDescription, @PathVariable String issueDescription, @PathVariable String status) {
-        MessageResponse response = ticketService.updateTicket(ticketId, employeeId, customerId, deviceDescription, issueDescription, status);
+    public ResponseEntity<MessageResponse> updateTicket(@PathVariable Integer ticketId,
+            @PathVariable Integer employeeId, @PathVariable Integer customerId, @PathVariable String deviceDescription,
+            @PathVariable String issueDescription, @PathVariable String status) {
+        MessageResponse response = ticketService.updateTicket(ticketId, employeeId, customerId, deviceDescription,
+                issueDescription, status);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{ticketId}")
+    public ResponseEntity<MessageResponse> deleteTicket(@PathVariable Integer ticketId) {
+        MessageResponse response = ticketService.deleteTicket(ticketId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/{ticketId}/{employeeId}/{note}")
+    public ResponseEntity<MessageResponse> createNote(@PathVariable Integer ticketId, @PathVariable Integer employeeId,
+            @PathVariable String note) {
+        MessageResponse response = ticketService.createNote(ticketId, employeeId, note);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/notes/{noteId}/{message}")
+    public ResponseEntity<MessageResponse> updateNote(@PathVariable Integer noteId, @PathVariable String message) {
+        MessageResponse response = ticketService.updateNote(noteId, message);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/notes/{noteId}")
+    public ResponseEntity<MessageResponse> deleteNote(@PathVariable Integer noteId) {
+        MessageResponse response = ticketService.deleteNote(noteId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
