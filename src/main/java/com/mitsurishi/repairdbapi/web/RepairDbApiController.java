@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,10 +45,8 @@ public class RepairDbApiController {
     /*
      *******************************************************************CUSTOMER REQUESTS*********************************************************************************
      */
-
-    // Retrieve single invoice via ID provided by request
-    @GetMapping("/customers/find/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Integer id){
+    @GetMapping("/customers")
+    public ResponseEntity<Customer> getCustomerById(@RequestParam Integer id){
         Customer customer = customerService.getCustomerById(id);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
@@ -86,36 +84,36 @@ public class RepairDbApiController {
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 
-    @PostMapping("/tickets/{employeeId}/{customerId}/{deviceDescription}/{issueDescription}/{status}/{createdOn}")
-    public ResponseEntity<MessageResponse> createTicket(@PathVariable Integer employeeId,
-            @PathVariable Integer customerId, @PathVariable String deviceDescription,
-            @PathVariable String issueDescription, @PathVariable String status) {
+    @PostMapping("/tickets")
+    public ResponseEntity<MessageResponse> createTicket(@RequestParam Integer employeeId,
+            @RequestParam Integer customerId, @RequestParam String deviceDescription,
+            @RequestParam String issueDescription, @RequestParam String status) {
         MessageResponse response = ticketService.createTicket(employeeId, customerId, deviceDescription,
                 issueDescription, status);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/tickets/{ticketId}")
-    public ResponseEntity<Ticket> getTicketById(@PathVariable Integer ticketId) {
+    @GetMapping("/tickets")
+    public ResponseEntity<Ticket> getTicketById(@RequestParam Integer ticketId) {
         Ticket ticket = ticketService.getTicketById(ticketId);
         return new ResponseEntity<>(ticket, HttpStatus.OK);
     }
 
-    @PostMapping("/{ticketId}/{employeeId}/{note}")
-    public ResponseEntity<MessageResponse> createNote(@PathVariable Integer ticketId, @PathVariable Integer employeeId,
-            @PathVariable String note) {
+    @PostMapping("/tickets/notes")
+    public ResponseEntity<MessageResponse> createNote(@RequestParam Integer ticketId, @RequestParam Integer employeeId,
+            @RequestParam String note) {
         MessageResponse response = ticketService.createNote(ticketId, employeeId, note);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("/notes/{noteId}/{message}")
-    public ResponseEntity<MessageResponse> updateNote(@PathVariable Integer noteId, @PathVariable String message) {
+    @PutMapping("/tickets/notes")
+    public ResponseEntity<MessageResponse> updateNote(@RequestParam Integer noteId, @RequestParam String message) {
         MessageResponse response = ticketService.updateNote(noteId, message);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/notes/{noteId}")
-    public ResponseEntity<MessageResponse> deleteNote(@PathVariable Integer noteId) {
+    @DeleteMapping("/tickets/notes")
+    public ResponseEntity<MessageResponse> deleteNote(@RequestParam Integer noteId) {
         MessageResponse response = ticketService.deleteNote(noteId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
