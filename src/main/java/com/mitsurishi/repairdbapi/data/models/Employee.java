@@ -19,13 +19,19 @@ import java.util.Set;
 public class Employee {
     // Attributes (all private)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Integer id; // JPL annotations indicating id as auto-generated (via JPL provider) primary
                         // key
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "user_name", nullable = false)
+    private String userName;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     // NotFound annotation to satisfy one to zero-or-many relationship
     @OneToMany(mappedBy = "employee")
@@ -38,12 +44,14 @@ public class Employee {
     private Set<Ticket> tickets;
 
     // Default empty constructor
-    Employee() {
+    public Employee() {
     }
 
     // Custom constructor for creating this domain object without yet having an ID
-    Employee(String name) {
+    public Employee(String name,String userName, String password) {
         this.name = name;
+        this.userName = userName;
+        this.password = password;
     }
 
     // Getters
@@ -55,6 +63,14 @@ public class Employee {
         return this.name;
     }
 
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
     public Set<Note> getNotes() {
         return this.notes;
     }
@@ -62,6 +78,7 @@ public class Employee {
     public Set<Ticket> getTickets() {
         return this.tickets;
     }
+
 
     // Setters
     public void setId(Integer id) {
@@ -78,6 +95,14 @@ public class Employee {
 
     public void setTickets(Set<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
     // Overwrite .equals(), .hashCode(), and .toString()
