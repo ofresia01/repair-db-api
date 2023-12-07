@@ -17,7 +17,6 @@ import com.mitsurishi.repairdbapi.data.models.Note;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
