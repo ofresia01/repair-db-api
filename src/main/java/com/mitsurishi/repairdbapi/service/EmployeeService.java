@@ -1,12 +1,10 @@
 package com.mitsurishi.repairdbapi.service;
 
-import com.mitsurishi.repairdbapi.data.models.Customer;
 import com.mitsurishi.repairdbapi.data.models.Employee;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.data.repositories.EmployeeRepository;
 import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 import java.util.Optional;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

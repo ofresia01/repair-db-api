@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mitsurishi.repairdbapi.data.models.Customer;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
@@ -59,7 +58,7 @@ public class RepairDbApiController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<MessageResponse> createcustomer(@RequestParam String name, @RequestParam String email, @RequestParam String phoneNumber){
+    public ResponseEntity<MessageResponse> createCustomer(@RequestParam String name, @RequestParam String email, @RequestParam String phoneNumber){
         MessageResponse response = customerService.createCustomer(name,email,phoneNumber);
         return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
     }
