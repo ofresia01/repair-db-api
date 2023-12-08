@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -39,7 +40,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @JsonIgnore
+    @JsonBackReference
     private Customer customer;
 
     @Column(name = "device_desc", nullable = false)
