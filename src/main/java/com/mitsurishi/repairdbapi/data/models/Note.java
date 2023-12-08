@@ -5,6 +5,8 @@ package com.mitsurishi.repairdbapi.data.models;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,10 +29,12 @@ public class Note {
 
     @ManyToOne
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    @JsonIgnore
     private Ticket ticket;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    @JsonIgnore
     private Employee employee;
 
     @Column(name = "note", nullable = false)

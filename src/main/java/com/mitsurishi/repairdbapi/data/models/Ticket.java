@@ -39,6 +39,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JsonIgnore
     private Customer customer;
 
     @Column(name = "device_desc", nullable = false)
@@ -164,7 +165,7 @@ public class Ticket {
 
         // Cast object to Ticket, check if all attributes are equal
         Ticket ticket = (Ticket) object;
-        return Objects.equals(getId(), ticket.getId()) && getEmployee().equals(ticket.getEmployee())
+        return Objects.equals(getId(), ticket.getId())
                 && getCustomer().equals(ticket.getCustomer())
                 && Objects.equals(getDeviceDescription(), ticket.getDeviceDescription())
                 && Objects.equals(getIssueDescription(), ticket.getIssueDescription())
@@ -175,17 +176,17 @@ public class Ticket {
     @Override
     public int hashCode() {
         // Computes hash value of this instance
-        return Objects.hash(getId(), getEmployee().hashCode(), getCustomer().hashCode(), getDeviceDescription(),
-                getIssueDescription(), getStatus(), getCreatedDate(), getInvoice().hashCode());
+        return Objects.hash(getId(), getDeviceDescription(),
+                getIssueDescription(), getStatus(), getCreatedDate());
     }
 
     @Override
     public String toString() {
         // String representation of Invoice object
-        return "Ticket{" + "id=" + getId() + ", employee=" + getEmployee().toString() + ", customer="
+        return "Ticket{" + "id=" + getId() + ", customer="
                 + getCustomer().toString()
                 + ", deviceDescription='" + getDeviceDescription() + "', issueDescription=" + getIssueDescription()
                 + "', status=" + getStatus()
-                + "', createdOn=" + getCreatedDate() + "', invoice=" + getInvoice().toString() + "}";
+                + "', createdOn=" + getCreatedDate() + "}";
     }
 }

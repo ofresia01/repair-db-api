@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity // JPL annotation that prepares object for storage in JPA based data store
 @Table(name = "\"Employee\"")
 public class Employee {
@@ -41,6 +43,7 @@ public class Employee {
     // Notfound annotation to satisfy one to zero-or-many relationship
     @OneToMany(mappedBy = "employee")
     // @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     private Set<Ticket> tickets;
 
     // Default empty constructor
