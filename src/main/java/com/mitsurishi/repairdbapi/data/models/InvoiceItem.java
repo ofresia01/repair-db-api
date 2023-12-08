@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "\"InvoiceItem\"")
 public class InvoiceItem {
@@ -27,6 +29,7 @@ public class InvoiceItem {
 
     @ManyToOne
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
+    @JsonIgnore
     private Invoice invoice;
 
     @Column(name = "name", nullable = false)

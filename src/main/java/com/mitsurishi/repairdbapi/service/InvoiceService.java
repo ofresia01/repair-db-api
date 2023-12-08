@@ -13,8 +13,6 @@ import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.exception.ResourceNotFoundException;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service // Specify class as Service bean for component scanning
