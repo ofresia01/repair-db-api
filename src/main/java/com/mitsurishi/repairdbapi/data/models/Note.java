@@ -34,7 +34,6 @@ public class Note {
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    @JsonIgnore
     private Employee employee;
 
     @Column(name = "note", nullable = false)

@@ -38,6 +38,7 @@ public class Employee {
     // NotFound annotation to satisfy one to zero-or-many relationship
     @OneToMany(mappedBy = "employee")
     // @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     private Set<Note> notes;
 
     // Notfound annotation to satisfy one to zero-or-many relationship

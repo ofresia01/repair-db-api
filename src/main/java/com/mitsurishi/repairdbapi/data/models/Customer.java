@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "\"Customer\"")
 public class Customer {
@@ -37,6 +39,7 @@ public class Customer {
     // NotFound annotation as this is a one to zero-or-many relationship
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     // @NotFound(action = NotFoundAction.IGNORE)
+    @JsonManagedReference
     private Set<Ticket> tickets;
 
     // Default, empty constructor
