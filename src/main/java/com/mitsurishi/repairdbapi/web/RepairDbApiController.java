@@ -153,7 +153,7 @@ public class RepairDbApiController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/employee/ticket")
+    @PutMapping("/employee/ticket")
     public ResponseEntity<MessageResponse> assignEmployeeToTicket(@RequestParam Integer id,
             @RequestParam Integer ticketId) {
         MessageResponse response = employeeService.assignEmployeeToTicket(id, ticketId);
