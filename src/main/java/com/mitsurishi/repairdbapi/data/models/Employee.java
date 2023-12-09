@@ -35,15 +35,12 @@ public class Employee {
     @Column(name = "password", nullable = false)
     private String password;
 
-    // NotFound annotation to satisfy one to zero-or-many relationship
+
     @OneToMany(mappedBy = "employee")
-    // @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private Set<Note> notes;
 
-    // Notfound annotation to satisfy one to zero-or-many relationship
     @OneToMany(mappedBy = "employee")
-    // @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private Set<Ticket> tickets;
 

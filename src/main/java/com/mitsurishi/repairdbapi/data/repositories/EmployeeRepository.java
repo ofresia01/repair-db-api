@@ -12,6 +12,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.mitsurishi.repairdbapi.data.models.Employee;
 
-@Repository // Specify class as Repository bean for component scanning
-public interface EmployeeRepository extends JpaRepository<Employee, Integer> {} // Declare interface extension of JpaRepository, specifying domain type as Employee and ID type as Integer
 
+// Declare interface extension of JpaRepository, specifying domain type as Employee and ID type as Integer
+@Repository // Specify class as Repository bean for component scanning
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+    Employee findByUserNameAndPassword(String username, String password);
+} 

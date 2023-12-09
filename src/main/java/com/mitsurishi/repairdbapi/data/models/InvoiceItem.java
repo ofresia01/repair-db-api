@@ -45,11 +45,11 @@ public class InvoiceItem {
     private String type;
 
     // Default, empty constructor
-    InvoiceItem() {
+    public InvoiceItem() {
     }
 
     // Custom constructor with all attributes except ID
-    InvoiceItem(String name, Integer cost, Integer quantity, String type, Invoice invoice) {
+    public InvoiceItem(String name, Integer cost, Integer quantity, String type, Invoice invoice) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
@@ -103,7 +103,7 @@ public class InvoiceItem {
         this.type = type;
     }
 
-    public void setInvoiceId(Invoice invoice) {
+    public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
 
