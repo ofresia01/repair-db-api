@@ -43,9 +43,7 @@ public class RepairDbApiController {
     EmployeeService employeeService;
 
     /*
-     ******************************************************************* CUSTOMER
-     * REQUESTS*********************************************************************
-     * ************
+     ******************************************************************* CUSTOMER REQUESTS*********************************************************************************
      */
     @GetMapping("/customers/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
@@ -54,7 +52,7 @@ public class RepairDbApiController {
     }
 
     @GetMapping("/customers")
-    public ResponseEntity<List<Customer>> getCustomers() {
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customer = customerService.getAllCustomers();
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
@@ -73,20 +71,11 @@ public class RepairDbApiController {
         return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<MessageResponse> login(@RequestParam String userName,
-    // @RequestParam String password){
-    // MessageResponse response = employeeService.login(userName,password);
-    // return new ResponseEntity<MessageResponse>(response, HttpStatus.OK);
-    // }
-
     /*
-     ******************************************************************* TICKET
-     * REQUESTS*********************************************************************
-     * ************
+     ******************************************************************* TICKET REQUESTS*********************************************************************************
      */
     @GetMapping("/tickets")
-    public ResponseEntity<List<Ticket>> getTickets() {
+    public ResponseEntity<List<Ticket>> getAllTickets() {
         List<Ticket> tickets = ticketService.getAllTickets();
         return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
@@ -138,5 +127,59 @@ public class RepairDbApiController {
     public ResponseEntity<MessageResponse> deleteNote(@RequestParam Integer noteId) {
         MessageResponse response = ticketService.deleteNote(noteId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /*
+     ******************************************************************* EMPLOYEE REQUESTS *********************************************************************************
+     */
+
+    @PostMapping("/employee")
+    public ResponseEntity<MessageResponse> createEmployee(@RequestParam String name, @RequestParam String userName,
+            @RequestParam String password) {
+        MessageResponse response = employeeService.createEmployee(name, userName, password);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/employee")
+    public ResponseEntity<MessageResponse> updateEmployee(@RequestParam Integer id, @RequestParam String name,
+            @RequestParam String userName, @RequestParam String password) {
+        MessageResponse response = employeeService.updateEmployee(id, name, userName, password);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/employee")
+    public ResponseEntity<MessageResponse> deleteEmployee(@RequestParam Integer id) {
+        MessageResponse response = employeeService.deleteEmployee(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/employee/ticket")
+    public ResponseEntity<MessageResponse> assignEmployeeToTicket(@RequestParam Integer id,
+            @RequestParam Integer ticketId) {
+        MessageResponse response = employeeService.assignEmployeeToTicket(id, ticketId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/employee/login")
+    public ResponseEntity<MessageResponse> login(@RequestParam String username, @RequestParam String password) {
+        MessageResponse response = employeeService.login(username, password);
+        return ResponseEntity.ok(response);
+    }
+
+    /*
+     ******************************************************************* INVOICE REQUESTS *********************************************************************************
+     */
+
+    @PostMapping("/invoice")
+    public ResponseEntity<MessageResponse> createInvoice(@RequestParam Integer ticketId) {
+        MessageResponse response = invoiceService.createInvoice(ticketId);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/invoice")
+    public ResponseEntity<MessageResponse> updateInvoice(@RequestParam Integer invoiceId, @RequestParam String name,
+            @RequestParam Integer cost, @RequestParam Integer quantity, @RequestParam String type) {
+        MessageResponse response = invoiceService.updateInvoice(invoiceId, name, cost, quantity, type);
+        return ResponseEntity.ok(response);
     }
 }
