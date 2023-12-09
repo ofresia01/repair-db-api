@@ -12,7 +12,8 @@ public class MessageResponse {
         this.message = message;
     }
 
-    public MessageResponse() {};
+    public MessageResponse() {
+    };
 
     // Accessors and mutators
     public String getMessage() {

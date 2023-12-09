@@ -1,3 +1,6 @@
+/*
+ * Service-level class for handling Customer-related services.
+ */
 package com.mitsurishi.repairdbapi.service;
 
 import com.mitsurishi.repairdbapi.data.models.Customer;
