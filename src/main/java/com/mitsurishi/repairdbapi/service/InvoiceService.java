@@ -70,7 +70,7 @@ public class InvoiceService {
             // Save the InvoiceItem
             invoiceItemRepository.save(invoiceItem);
 
-            return new MessageResponse("InvoiceItem added successfully");
+            return new MessageResponse("SUCCESSFUL");
         } else {
             throw new ResourceNotFoundException("Invoice", "invoiceId", invoiceId);
         }

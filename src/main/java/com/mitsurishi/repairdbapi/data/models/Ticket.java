@@ -11,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,7 +57,7 @@ public class Ticket {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(mappedBy = "ticket")
     private Invoice invoice;
 

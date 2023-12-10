@@ -6,6 +6,7 @@ package com.mitsurishi.repairdbapi.data.models;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
@@ -17,7 +18,9 @@ import jakarta.persistence.GenerationType;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity // JPL annotation that prepares object for storage in JPL-based data store
 @Table(name = "\"Invoice\"")
@@ -30,12 +33,13 @@ public class Invoice {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @JsonIgnore
+    @JsonBackReference
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
 
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<InvoiceItem> invoiceItems;
 
     // Default, empty constructor

@@ -17,7 +17,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "\"InvoiceItem\"")
+@Table(name = "\"Invoice_Items\"")
 public class InvoiceItem {
     // Attributes (all private)
     // JPL annotations indicating id as auto-generated (via JPL provider) primary
@@ -41,7 +41,7 @@ public class InvoiceItem {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "item_type", nullable = false)
     private String type;
 
     // Default, empty constructor
