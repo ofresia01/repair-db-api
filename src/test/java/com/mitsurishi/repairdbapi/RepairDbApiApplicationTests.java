@@ -247,14 +247,16 @@ public class RepairDbApiApplicationTests {
 
     @Test
     public void testLogin() throws Exception {
-        when(employeeService.login("john_doe", "password123")).thenReturn(new MessageResponse("SUCCESSFUL"));
+        when(employeeService.login("john_doe", "password123")).thenReturn(new Employee("John Doe", "john_doe", "password123"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/employee/login")
                 .param("username", "john_doe")
                 .param("password", "password123")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("SUCCESSFUL"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("John Doe"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.userName").value("john_doe"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.password").value("password123"));
     }
 
 	@Test
