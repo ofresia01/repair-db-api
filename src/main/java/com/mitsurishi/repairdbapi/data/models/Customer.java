@@ -43,7 +43,7 @@ public class Customer {
     private Set<Ticket> tickets;
 
     // Default, empty constructor
-    Customer() {
+    public Customer() {
     }
 
     // Custom constructor with all attributes except ID
