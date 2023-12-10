@@ -17,4 +17,4 @@ import com.mitsurishi.repairdbapi.data.models.Employee;
 @Repository // Specify class as Repository bean for component scanning
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Employee findByUserNameAndPassword(String username, String password);
-} 
+}

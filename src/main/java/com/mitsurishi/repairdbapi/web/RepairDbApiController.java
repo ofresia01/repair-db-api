@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.mitsurishi.repairdbapi.data.models.Customer;
+import com.mitsurishi.repairdbapi.data.models.Employee;
 import com.mitsurishi.repairdbapi.data.models.Ticket;
 import com.mitsurishi.repairdbapi.data.payloads.response.MessageResponse;
 import com.mitsurishi.repairdbapi.service.CustomerService;
@@ -161,8 +162,8 @@ public class RepairDbApiController {
     }
 
     @GetMapping("/employee/login")
-    public ResponseEntity<MessageResponse> login(@RequestParam String username, @RequestParam String password) {
-        MessageResponse response = employeeService.login(username, password);
+    public ResponseEntity<Employee> login(@RequestParam String username, @RequestParam String password) {
+        Employee response = employeeService.login(username, password);
         return ResponseEntity.ok(response);
     }
 

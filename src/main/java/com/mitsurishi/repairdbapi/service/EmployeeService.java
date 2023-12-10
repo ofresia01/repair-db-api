@@ -111,16 +111,16 @@ public class EmployeeService {
    * Method that checks for existence of username and password combination in database via JPA.
    * @param username String containing employee's username
    * @param password String containing employee's password
-   * @return MessageResponse indicating either success or invalid credentials
+   * @return Employee associated with credentials or ResourceNotFoundException
    */
-  public MessageResponse login(String username, String password) {
+  public Employee login(String username, String password) {
     // Find employee by username and password
     Employee employee = employeeRepository.findByUserNameAndPassword(username, password);
 
     if (employee != null) {
-      return new MessageResponse("SUCCESSFUL");
+      return employee;
     } else {
-      return new MessageResponse("CREDENTIALS INVALID");
+      throw new ResourceNotFoundException("Employee", "credentials", "username:" + username + ",password:" + password);
     }
   }
 }
